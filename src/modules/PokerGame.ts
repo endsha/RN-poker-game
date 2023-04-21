@@ -6,7 +6,9 @@ interface IPokerGameConfig {
   blindBet: number;
   maxPlayers: number;
 }
-export default class PokerGame extends CardGame {
+export class PokerGame extends CardGame {
+  private static instance: PokerGame; // Singleton instance
+
   private _isBetting: boolean = false;
 
   private _blindBet: number = 0;
@@ -18,11 +20,21 @@ export default class PokerGame extends CardGame {
   private _newPlayers: Player[] = [];
 
   // Initial poker table
-  constructor(config: IPokerGameConfig) {
+  constructor(config?: IPokerGameConfig) {
     super();
     console.log('INITIAL POKER GAME');
-    this._blindBet = config.blindBet;
-    this.setMaxPlayers(config.maxPlayers);
+    // this._blindBet = config.blindBet;
+    // this.setMaxPlayers(config.maxPlayers);
+    this._blindBet = 0;
+    this.setMaxPlayers(14);
+  }
+
+  // Static method to get the singleton instance
+  public static getInstance(config: IPokerGameConfig): PokerGame {
+    if (!PokerGame.instance) {
+      PokerGame.instance = new PokerGame(config); // Create a new instance if it doesn't exist
+    }
+    return PokerGame.instance;
   }
 
   public logAllData(): void {
@@ -37,6 +49,9 @@ export default class PokerGame extends CardGame {
   }
 
   public startGame(): void {
+    if (this.getCurrentPlayers().length < 2) {
+      throw new Error('NOT ENOUGH PLAYERS');
+    }
     // Shuffle deck of card
     this.setDeckOfCard(
       Object.keys(CardType).reduce((prevValue: Card[], currentValue) => {
@@ -142,3 +157,7 @@ export default class PokerGame extends CardGame {
     }
   }
 }
+
+const pokerGame = new PokerGame();
+
+export default pokerGame;

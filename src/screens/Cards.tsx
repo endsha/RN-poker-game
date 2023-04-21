@@ -1,21 +1,16 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import CardComponent from '@components/Card';
 import { DECK_OF_CARDS } from '@constants/cards';
 import Player from '@modules/Player';
-import PokerGame from '@modules/PokerGame';
 import { Colors } from '@themes';
 import { Card } from '@custom-types/cards';
 import { shuffleArray } from '@utils/math';
+import pokerGame from '@modules/PokerGame';
 
 const CardsScreen = () => {
   const [cards, setCards] = React.useState<Card[]>(shuffleArray(DECK_OF_CARDS));
-  const pokerGame = React.useMemo(() => {
-    return new PokerGame({
-      blindBet: 0,
-      maxPlayers: 14,
-    });
-  }, []);
+  
 
   const resetCards = () => {
     setCards([]);
@@ -27,6 +22,8 @@ const CardsScreen = () => {
   const popCard = () => {
     setCards(cards => cards.slice(1));
   };
+
+  
 
   return (
     <View style={styles.container}>
@@ -47,7 +44,7 @@ const CardsScreen = () => {
       <TouchableOpacity
         style={{ position: 'absolute', bottom: 150 }}
         onPress={() => {
-          pokerGame.startGame();
+          // startGame();
         }}
       >
         <Text>Start game</Text>
@@ -55,7 +52,7 @@ const CardsScreen = () => {
       <TouchableOpacity
         style={{ position: 'absolute', bottom: 110 }}
         onPress={() => {
-          pokerGame.joinGame(new Player('Anh'));
+          // pokerGame.joinGame(new Player('Anh'));
         }}
       >
         <Text>Add player</Text>

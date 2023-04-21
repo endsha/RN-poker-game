@@ -76,7 +76,7 @@ const Card = (props: CardProps): JSX.Element => {
         toValue: { x: 0, y: 0 },
         useNativeDriver: false,
       }).start();
-    }, index * 120);
+    }, index * 100);
 
     const unsubscribe = pan.addListener(value => {
       panXValue.current = value.x;
